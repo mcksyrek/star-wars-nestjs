@@ -4,8 +4,29 @@
 
 type Character {
   name: String!
+  episodes: [String!]!
+  planet: String
 }
 
 type Query {
   characters: [Character!]!
+  character(name: String!): Character
+}
+
+type Mutation {
+  addCharacter(input: CreateCharacterInput!): Character!
+  updateCharacter(name: String!, input: UpdateCharacterInput!): Character!
+  deleteCharacter(name: String!): Boolean!
+}
+
+input CreateCharacterInput {
+  name: String!
+  episodes: [String!]!
+  planet: String
+}
+
+input UpdateCharacterInput {
+  name: String
+  episodes: [String!]
+  planet: String
 }
