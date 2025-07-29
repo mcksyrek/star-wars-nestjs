@@ -3,6 +3,7 @@
 # ------------------------------------------------------
 
 type Character {
+  id: ID!
   name: String!
   episodes: [String!]!
   planet: String
@@ -10,13 +11,13 @@ type Character {
 
 type Query {
   characters: [Character!]!
-  character(name: String!): Character
+  character(id: Float!): Character
 }
 
 type Mutation {
   addCharacter(input: CreateCharacterInput!): Character!
-  updateCharacter(name: String!, input: UpdateCharacterInput!): Character!
-  deleteCharacter(name: String!): Boolean!
+  updateCharacter(id: Float!, input: UpdateCharacterInput!): Character!
+  deleteCharacter(id: Float!): Boolean!
 }
 
 input CreateCharacterInput {

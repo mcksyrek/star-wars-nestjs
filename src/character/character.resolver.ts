@@ -1,5 +1,5 @@
 import { Query, Resolver, Mutation, Args } from '@nestjs/graphql';
-import { Character } from './character.model';
+import { Character } from './character.entity';
 import { CharacterService } from './character.service';
 import { CreateCharacterInput } from './dto/create-character.input';
 import { UpdateCharacterInput } from './dto/update-character.input';
@@ -14,25 +14,25 @@ export class CharacterResolver {
   }
 
   @Query(() => Character, { nullable: true })
-  character(@Args('name') name: string) {
-    return this.characterService.findOne(name);
+  character(@Args('id', { type: () => Number }) id: number) {
+    return this.characterService.findOne(id);
   }
-
+  
   @Mutation(() => Character)
   addCharacter(@Args('input') input: CreateCharacterInput) {
     return this.characterService.create(input);
   }
-
+  
   @Mutation(() => Character)
   updateCharacter(
-    @Args('name') name: string,
+    @Args('id', { type: () => Number }) id: number,
     @Args('input') input: UpdateCharacterInput,
   ) {
-    return this.characterService.update(name, input);
+    return this.characterService.update(id, input);
   }
-
+  
   @Mutation(() => Boolean)
-  deleteCharacter(@Args('name') name: string) {
-    return this.characterService.delete(name);
-  }
+  deleteCharacter(@Args('id', { type: () => Number }) id: number) {
+    return this.characterService.delete(id);
+  }  
 }

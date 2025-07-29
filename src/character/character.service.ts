@@ -1,53 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { Character } from './character.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Character } from './character.entity';
 import { CreateCharacterInput } from './dto/create-character.input';
 import { UpdateCharacterInput } from './dto/update-character.input';
 
 @Injectable()
 export class CharacterService {
-  private characters: Character[] = [
-    { name: 'Luke Skywalker', episodes: ['NEWHOPE', 'EMPIRE', 'JEDI'] },
-    { name: 'Leia Organa', episodes: ['NEWHOPE', 'EMPIRE', 'JEDI'], planet: 'Alderaan' },
-    { name: 'Darth Vader', episodes: ['NEWHOPE', 'EMPIRE', 'JEDI'] },
-  ];
+  constructor(
+    @InjectRepository(Character)
+    private readonly characterRepository: Repository<Character>,
+  ) {}
 
-  findAll(): Character[] {
-    return this.characters;
+  findAll(): Promise<Character[]> {
+    return this.characterRepository.find();
   }
 
-  findOne(name: string): Character | undefined{
-    return this.characters.find(c => c.name === name);
+  async findOne(id: number): Promise<Character> {
+    const character = await this.characterRepository.findOneBy({ id });
+    if (!character) {
+      throw new Error(`Character with id ${id} not found`);
+    }
+    return character;
   }
 
-  create(input: CreateCharacterInput): Character {
-    const newCharacter: Character = {
-      name: input.name,
-      episodes: input.episodes,
-      planet: input.planet,
-    };
-    this.characters.push(newCharacter);
-    return newCharacter;
+  async create(input: CreateCharacterInput): Promise<Character> {
+    const character = this.characterRepository.create(input);
+    return this.characterRepository.save(character);
   }
 
-  update(name: string, input: UpdateCharacterInput): Character {
-    const index = this.characters.findIndex(c => c.name === name);
-    if (index === -1) throw new Error('Character not found');
-
-    const existing = this.characters[index];
-    const updated = {
-      ...existing,
-      ...input,
-    };
-
-    this.characters[index] = updated;
-    return updated;
+  async createMany(inputs: CreateCharacterInput[]): Promise<Character[]> {
+    const entities = this.characterRepository.create(inputs);
+    return this.characterRepository.save(entities);
   }
 
-  delete(name: string): boolean {
-    const index = this.characters.findIndex(c => c.name === name);
-    if (index === -1) return false;
-
-    this.characters.splice(index, 1);
-    return true;
+  async update(id: number, input: UpdateCharacterInput): Promise<Character> {
+    const character = await this.findOne(id);
+    Object.assign(character, input);
+    return this.characterRepository.save(character);
   }
+
+  async delete(id: number): Promise<boolean> {
+    const result = await this.characterRepository.delete(id);
+    return !!result.affected && result.affected > 0;
+}
 }
