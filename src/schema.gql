@@ -10,7 +10,7 @@ type Character {
 }
 
 type Query {
-  characters: [Character!]!
+  characters(limit: Float, offset: Float): [Character!]!
   character(id: Float!): Character
 }
 

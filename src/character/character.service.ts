@@ -12,9 +12,13 @@ export class CharacterService {
     private readonly characterRepository: Repository<Character>,
   ) {}
 
-  findAll(): Promise<Character[]> {
-    return this.characterRepository.find();
-  }
+  async findAll(limit = 10, offset = 0): Promise<Character[]> {
+    return this.characterRepository.find({
+      skip: offset,
+      take: limit,
+      order: { id: 'ASC' },
+    });
+  }  
 
   async findOne(id: number): Promise<Character> {
     const character = await this.characterRepository.findOneBy({ id });

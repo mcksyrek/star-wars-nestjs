@@ -9,9 +9,12 @@ export class CharacterResolver {
   constructor(private characterService: CharacterService) {}
 
   @Query(() => [Character])
-  characters() {
-    return this.characterService.findAll();
-  }
+  characters(
+    @Args('limit', { type: () => Number, nullable: true }) limit?: number,
+    @Args('offset', { type: () => Number, nullable: true }) offset?: number,
+  ) {
+    return this.characterService.findAll(limit, offset);
+}
 
   @Query(() => Character, { nullable: true })
   character(@Args('id', { type: () => Number }) id: number) {
