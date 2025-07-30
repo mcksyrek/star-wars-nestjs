@@ -79,7 +79,6 @@ npm run test:e2e
 While this repo uses synchronize: true and SQLite for dev/testing, production deployment should include:
 - Use PostgreSQL or MySQL
 - Use TypeORM migrations instead of synchronize: true
-- Add input validation using class-validator
 - Add authentication
 - Add rate limiting (@nestjs/throttler)
 - Add logging & monitoring
