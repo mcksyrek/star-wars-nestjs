@@ -14,18 +14,18 @@ export class CharacterResolver {
     @Args('offset', { type: () => Number, nullable: true }) offset?: number,
   ) {
     return this.characterService.findAll(limit, offset);
-}
+  }
 
   @Query(() => Character, { nullable: true })
   character(@Args('id', { type: () => Number }) id: number) {
     return this.characterService.findOne(id);
   }
-  
+
   @Mutation(() => Character)
   addCharacter(@Args('input') input: CreateCharacterInput) {
     return this.characterService.create(input);
   }
-  
+
   @Mutation(() => Character)
   updateCharacter(
     @Args('id', { type: () => Number }) id: number,
@@ -33,9 +33,9 @@ export class CharacterResolver {
   ) {
     return this.characterService.update(id, input);
   }
-  
+
   @Mutation(() => Boolean)
   deleteCharacter(@Args('id', { type: () => Number }) id: number) {
     return this.characterService.delete(id);
-  }  
+  }
 }

@@ -22,13 +22,16 @@ describe('Character E2E', () => {
 
     dataSource = app.get(DataSource);
 
-  const characterService = app.get(CharacterService);
-  await characterService.createMany([
-    { name: 'Luke Skywalker', episodes: ['NEWHOPE', 'EMPIRE', 'JEDI'] },
-    { name: 'Leia Organa', episodes: ['NEWHOPE', 'EMPIRE', 'JEDI'], planet: 'Alderaan' },
-    { name: 'Darth Vader', episodes: ['NEWHOPE', 'EMPIRE', 'JEDI'] },
-  ]);
-
+    const characterService = app.get(CharacterService);
+    await characterService.createMany([
+      { name: 'Luke Skywalker', episodes: ['NEWHOPE', 'EMPIRE', 'JEDI'] },
+      {
+        name: 'Leia Organa',
+        episodes: ['NEWHOPE', 'EMPIRE', 'JEDI'],
+        planet: 'Alderaan',
+      },
+      { name: 'Darth Vader', episodes: ['NEWHOPE', 'EMPIRE', 'JEDI'] },
+    ]);
   });
 
   afterAll(async () => {

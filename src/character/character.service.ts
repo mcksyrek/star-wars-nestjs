@@ -18,7 +18,7 @@ export class CharacterService {
       take: limit,
       order: { id: 'ASC' },
     });
-  }  
+  }
 
   async findOne(id: number): Promise<Character> {
     const character = await this.characterRepository.findOneBy({ id });
@@ -47,5 +47,5 @@ export class CharacterService {
   async delete(id: number): Promise<boolean> {
     const result = await this.characterRepository.delete(id);
     return !!result.affected && result.affected > 0;
-}
+  }
 }

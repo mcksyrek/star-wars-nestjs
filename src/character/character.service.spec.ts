@@ -50,7 +50,9 @@ describe('CharacterService', () => {
 
   it('should throw if character not found', async () => {
     repo.findOneBy.mockResolvedValue(null);
-    await expect(service.findOne(99)).rejects.toThrow('Character with id 99 not found');
+    await expect(service.findOne(99)).rejects.toThrow(
+      'Character with id 99 not found',
+    );
   });
 
   it('should create a new character', async () => {

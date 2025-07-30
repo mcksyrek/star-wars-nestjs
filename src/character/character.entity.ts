@@ -13,7 +13,7 @@ export class Character {
   name: string;
 
   @Field(() => [String])
-  @Column("simple-array")
+  @Column('simple-array')
   episodes: string[];
 
   @Field({ nullable: true })
