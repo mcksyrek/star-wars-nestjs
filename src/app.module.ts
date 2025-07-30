@@ -9,10 +9,11 @@ import { CharacterModule } from './character/character.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'starwars.db',
+      database: process.env.NODE_ENV === 'test' ? 'test.db' : 'starwars.db',
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       synchronize: true,
-    }),  
+      dropSchema: process.env.NODE_ENV === 'test',
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
